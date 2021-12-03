@@ -1,0 +1,20 @@
+name: 'Fetch State Action'
+description: 'Preserve the workdir state in a separate branch'
+inputs:
+  state_name:
+    description: 'The name of the state branch'
+    required: true
+    default: state
+  main_name:
+    description: 'The name of the main branch to rebase on'
+    required: true
+    default: main
+runs:
+  using: 'composite'
+  steps:
+    - run: git config user.name github-actions
+      shell: bash
+    - run: git config user.email github-actions@github.com
+      shell: bash
+    - run: git rebase -X ours origin/${{ inputs.main_name }}
+      shell: bash
